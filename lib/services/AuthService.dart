@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mighty_news_firebase/models/UserModel.dart';
 import 'package:mighty_news_firebase/utils/Common.dart';
-import 'package:mighty_news_firebase/utils/Constants.dart';
+import 'package:mighty_news_firebase/utils/Constants.dart' as theme;
 import 'package:mighty_news_firebase/utils/ModelKeys.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
@@ -39,14 +39,14 @@ Future<void> signInWithGoogle() async {
     signOutGoogle();
     //endregion
 
-    await loginFromFirebaseUser(user, LoginTypeGoogle);
+    await loginFromFirebaseUser(user, theme.LoginTypeGoogle);
   } else {
     throw errorSomethingWentWrong;
   }
 }
 
 Future<UserModel> signInWithEmail(String email, String password) async {
-  if (await userService.isUserExist(email, LoginTypeApp)) {
+  if (await userService.isUserExist(email, theme.LoginTypeApp)) {
     UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
 
     if (userCredential != null && userCredential.user != null) {
@@ -59,8 +59,8 @@ Future<UserModel> signInWithEmail(String email, String password) async {
 
         userModel = value;
 
-        await setValue(PASSWORD, password);
-        await setValue(LOGIN_TYPE, LoginTypeApp);
+        await setValue(theme.PASSWORD, password);
+        await setValue(theme.LOGIN_TYPE, theme.LoginTypeApp);
         //
         await updateUserData(userModel);
         //
@@ -90,9 +90,9 @@ Future<void> signUpWithEmail(String name, String email, String password) async {
     userModel.email = currentUser.email;
     userModel.name = name;
     userModel.image = '';
-    userModel.loginType = LoginTypeApp;
+    userModel.loginType = theme.LoginTypeApp;
     userModel.isNotificationOn = true;
-    userModel.appLanguage = DefaultLanguage;
+    userModel.appLanguage = theme.DefaultLanguage;
     userModel.themeIndex = 0;
     userModel.updatedAt = DateTime.now();
     userModel.createdAt = DateTime.now();
@@ -101,7 +101,7 @@ Future<void> signUpWithEmail(String name, String email, String password) async {
     userModel.isTester = false;
     userModel.isNotificationOn = true;
 
-    userModel.oneSignalPlayerId = getStringAsync(PLAYER_ID);
+    userModel.oneSignalPlayerId = getStringAsync(theme.PLAYER_ID);
 
     await userService.addDocumentWithCustomId(currentUser.uid, userModel.toJson()).then((value) async {
       log('Signed up');
@@ -118,18 +118,18 @@ Future<void> signUpWithEmail(String name, String email, String password) async {
 
 Future<void> changePassword(String newPassword) async {
   await FirebaseAuth.instance.currentUser!.updatePassword(newPassword).then((value) async {
-    await setValue(PASSWORD, newPassword);
+    await setValue(theme.PASSWORD, newPassword);
   });
 }
 
 Future<void> setUserDetailPreference(UserModel userModel) async {
-  await setValue(USER_ID, userModel.id);
-  await setValue(FULL_NAME, userModel.name);
-  await setValue(USER_EMAIL, userModel.email);
-  await setValue(PROFILE_IMAGE, userModel.image.validate());
-  await setValue(IS_ADMIN, userModel.isAdmin.validate());
-  await setValue(IS_TESTER, userModel.isTester.validate());
-  if (userModel.bookmarks != null) await setValue(BOOKMARKS, jsonEncode(userModel.bookmarks));
+  await setValue(theme.USER_ID, userModel.id);
+  await setValue(theme.FULL_NAME, userModel.name);
+  await setValue(theme.USER_EMAIL, userModel.email);
+  await setValue(theme.PROFILE_IMAGE, userModel.image.validate());
+  await setValue(theme.IS_ADMIN, userModel.isAdmin.validate());
+  await setValue(theme.IS_TESTER, userModel.isTester.validate());
+  if (userModel.bookmarks != null) await setValue(theme.BOOKMARKS, jsonEncode(userModel.bookmarks));
 
   await setBookmarkList();
   postViewedList.clear();
@@ -145,8 +145,8 @@ Future<void> setUserDetailPreference(UserModel userModel) async {
 }
 
 Future<void> setBookmarkList() async {
-  if (getStringAsync(BOOKMARKS).isNotEmpty) {
-    Iterable? it = jsonDecode(getStringAsync(BOOKMARKS));
+  if (getStringAsync(theme.BOOKMARKS).isNotEmpty) {
+    Iterable? it = jsonDecode(getStringAsync(theme.BOOKMARKS));
 
     if (it != null && it.isNotEmpty) {
       bookmarkList.clear();
@@ -159,7 +159,7 @@ Future<void> updateUserData(UserModel user) async {
   //
   /// Update user data
   userService.updateDocument({
-    UserKeys.oneSignalPlayerId: getStringAsync(PLAYER_ID),
+    UserKeys.oneSignalPlayerId: getStringAsync(theme.PLAYER_ID),
     CommonKeys.updatedAt: DateTime.now(),
     UserKeys.isNotificationOn: user.isNotificationOn.validate(value: true),
   }, user.id);
@@ -167,36 +167,36 @@ Future<void> updateUserData(UserModel user) async {
   await setValue(THEME_MODE_INDEX, user.themeIndex.validate());
 
   appStore.setNotification(user.isNotificationOn.validate(value: true));
-  appStore.setLanguage(user.appLanguage.validate(value: DefaultLanguage));
+  appStore.setLanguage(user.appLanguage.validate(value: theme.DefaultLanguage));
 
   ///
   setTheme();
 }
 
 Future<void> logout(BuildContext context, {Function? onLogout}) async {
-  await removeKey(IS_LOGGED_IN);
-  await removeKey(IS_ADMIN);
-  await removeKey(USER_ID);
-  await removeKey(FULL_NAME);
-  await removeKey(USER_EMAIL);
-  await removeKey(USER_ROLE);
-  await removeKey(PASSWORD);
-  await removeKey(PROFILE_IMAGE);
-  await removeKey(IS_NOTIFICATION_ON);
-  await removeKey(IS_REMEMBERED);
-  await removeKey(LANGUAGE);
-  await removeKey(PLAYER_ID);
-  await removeKey(IS_SOCIAL_LOGIN);
-  await removeKey(LOGIN_TYPE);
-  await removeKey(POST_VIEWED_LIST);
-  await removeKey(BOOKMARKS);
+  await removeKey(theme.IS_LOGGED_IN);
+  await removeKey(theme.IS_ADMIN);
+  await removeKey(theme.USER_ID);
+  await removeKey(theme.FULL_NAME);
+  await removeKey(theme.USER_EMAIL);
+  await removeKey(theme.USER_ROLE);
+  await removeKey(theme.PASSWORD);
+  await removeKey(theme.PROFILE_IMAGE);
+  await removeKey(theme.IS_NOTIFICATION_ON);
+  await removeKey(theme.IS_REMEMBERED);
+  await removeKey(theme.LANGUAGE);
+  await removeKey(theme.PLAYER_ID);
+  await removeKey(theme.IS_SOCIAL_LOGIN);
+  await removeKey(theme.LOGIN_TYPE);
+  await removeKey(theme.POST_VIEWED_LIST);
+  await removeKey(theme.BOOKMARKS);
 
   bookmarkList.clear();
   postViewedList.clear();
 
-  if (getBoolAsync(IS_SOCIAL_LOGIN) || getStringAsync(LOGIN_TYPE) == LoginTypeOTP || !getBoolAsync(IS_REMEMBERED)) {
-    await removeKey(PASSWORD);
-    await removeKey(USER_EMAIL);
+  if (getBoolAsync(theme.IS_SOCIAL_LOGIN) || getStringAsync(theme.LOGIN_TYPE) == theme.LoginTypeOTP || !getBoolAsync(theme.IS_REMEMBERED)) {
+    await removeKey(theme.PASSWORD);
+    await removeKey(theme.USER_EMAIL);
   }
 
   appStore.setLoggedIn(false);
@@ -261,7 +261,7 @@ Future<void> appleLogIn() async {
 
         await loginFromFirebaseUser(
           user,
-          LoginTypeApple,
+          theme.LoginTypeApple,
           fullName: '${getStringAsync('appleGivenName')} ${getStringAsync('appleFamilyName')}',
         );
         break;
@@ -312,7 +312,7 @@ Future<void> loginFromFirebaseUser(User currentUser, String loginType, {String? 
     userModel.isTester = false;
     userModel.isNotificationOn = true;
 
-    userModel.oneSignalPlayerId = getStringAsync(PLAYER_ID);
+    userModel.oneSignalPlayerId = getStringAsync(theme.PLAYER_ID);
 
     await userService.addDocumentWithCustomId(currentUser.uid, userModel.toJson()).then((value) {
       //
@@ -321,6 +321,6 @@ Future<void> loginFromFirebaseUser(User currentUser, String loginType, {String? 
     });
   }
 
-  await setValue(LOGIN_TYPE, loginType);
+  await setValue(theme.LOGIN_TYPE, loginType);
   setUserDetailPreference(userModel);
 }

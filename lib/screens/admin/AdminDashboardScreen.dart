@@ -92,12 +92,18 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               context,
               title: 'logout_confirmation'.translate,
               positiveText: 'yes'.translate,
-              negativeText: 'no'.translate,
-              onAccept: () {
+              negativeText: 'no'.translate, 
+              onAccept: (BuildContext ) { 
                 logout(context, onLogout: () {
                   AdminLoginScreen().launch(context, isNewTask: true);
                 });
-              },
+               },
+              // onAccept: () {
+              //   logout(context, onLogout: () {
+              //     AdminLoginScreen().launch(context, isNewTask: true);
+              //   });
+              // },
+              
             );
           }).center(),
           16.width,

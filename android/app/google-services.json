@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "841080537191",
+    "project_id": "fitiga-ac970",
+    "storage_bucket": "fitiga-ac970.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841080537191:android:eb0ca9ff48cfdf32b214c2",
+        "android_client_info": {
+          "package_name": "com.mighty.newsfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841080537191-l50dtv4c2v8imisetnaid9epdci2q19m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwKOddiQ38RwA4Ytkt2_zgw0TSMhAzYc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841080537191-l50dtv4c2v8imisetnaid9epdci2q19m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

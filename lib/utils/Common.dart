@@ -9,7 +9,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
-import 'Constants.dart';
+import 'Constants.dart' as theme;
 
 extension SExt on String {
   String get translate => appLocalizations!.translate(this);
@@ -56,23 +56,23 @@ Future<void> launchUrl(String url, {bool forceWebView = false}) async {
 double newsListWidgetSize(BuildContext context) => isWeb ? 300 : context.width() * 0.6;
 
 bool isLoggedInWithGoogle() {
-  return appStore.isLoggedIn && getStringAsync(LOGIN_TYPE) == LoginTypeGoogle;
+  return appStore.isLoggedIn && getStringAsync(theme.LOGIN_TYPE) == theme.LoginTypeGoogle;
 }
 
 bool isLoggedInWithApp() {
-  return appStore.isLoggedIn && getStringAsync(LOGIN_TYPE) == LoginTypeApp;
+  return appStore.isLoggedIn && getStringAsync(theme.LOGIN_TYPE) == theme.LoginTypeApp;
 }
 
 bool isLoggedInWithApple() {
-  return appStore.isLoggedIn && getStringAsync(LOGIN_TYPE) == LoginTypeApple;
+  return appStore.isLoggedIn && getStringAsync(theme.LOGIN_TYPE) == theme.LoginTypeApple;
 }
 
 bool isLoggedInWithOTP() {
-  return appStore.isLoggedIn && getStringAsync(LOGIN_TYPE) == LoginTypeOTP;
+  return appStore.isLoggedIn && getStringAsync(theme.LOGIN_TYPE) == theme.LoginTypeOTP;
 }
 
 String storeBaseURL() {
-  return isAndroid ? playStoreBaseURL : appStoreBaseUrl;
+  return isAndroid ? playStoreBaseURL : theme.appStoreBaseUrl;
 }
 
 void setDynamicStatusBarColor({int delay = 200}) {
@@ -94,15 +94,15 @@ Color getAppBarWidgetTextColor() {
 void setTheme() {
   int themeModeIndex = getIntAsync(THEME_MODE_INDEX);
 
-  if (themeModeIndex == ThemeModeLight) {
+  if (themeModeIndex == theme.ThemeModeLight) {
     appStore.setDarkMode(false);
-  } else if (themeModeIndex == ThemeModeDark) {
+  } else if (themeModeIndex == theme.ThemeModeDark) {
     appStore.setDarkMode(true);
   }
 }
 
 void setPostViewsList() {
-  String s = getStringAsync(POST_VIEWED_LIST);
+  String s = getStringAsync(theme.POST_VIEWED_LIST);
 
   if (s.isNotEmpty) {
     Iterable it = jsonDecode(s);
